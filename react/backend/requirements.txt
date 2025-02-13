@@ -1,0 +1,9 @@
+fastapi==0.68.1
+uvicorn==0.15.0
+websockets==10.0
+numpy==1.21.2
+soundfile==0.10.3.post1
+TTS==0.17.6
+# Note: Please install espeak-ng separately from https://github.com/espeak-ng/espeak-ng and add it to your PATH.
+
+espeak-phonemizer==1.1.0

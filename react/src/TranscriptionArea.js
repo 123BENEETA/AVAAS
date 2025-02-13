@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { FiShare2, FiTrash2 } from 'react-icons/fi';
 import { speechQuotes } from './data/quotes';
 import './styles/QuotePanels.css';
-import { speakText, clearSpeechQueue } from './utils/speechUtils';
+import { ttsWebSocket } from './services/websocketService';
 
 const TranscriptionArea = ({ transcription, setTranscription, settings = { speed: 100, pitch: 100, volume: 100 } }) => {
     const previousTranscriptionRef = useRef('');
@@ -18,21 +18,26 @@ const TranscriptionArea = ({ transcription, setTranscription, settings = { speed
         return () => clearInterval(timer);
     }, [totalSets]);
 
+    useEffect(() => {
+        // Connect to WebSocket when component mounts
+        ttsWebSocket.connect();
+        
+        // Cleanup WebSocket connection when component unmounts
+        return () => ttsWebSocket.disconnect();
+    }, []);
+
     const handleNewTranscription = useCallback((text) => {
         if (text?.trim()) {
-            const prevText = previousTranscriptionRef.current;
+            const prevText = previousTranscriptionRef.current || '';
+            // Only get the actual new content
             const newText = text.slice(prevText.length).trim();
             
-            if (newText) {
-                speakText(newText, {
-                    rate: (settings?.speed || 100) / 100,
-                    pitch: (settings?.pitch || 100) / 100,
-                    volume: (settings?.volume || 100) / 100
-                });
+            if (newText) {  // Remove the text !== prevText check
+                ttsWebSocket.speak(newText);
             }
             previousTranscriptionRef.current = text;
         }
-    }, [settings]);
+    }, []);
 
     useEffect(() => {
         if (transcription) {
@@ -70,8 +75,8 @@ const TranscriptionArea = ({ transcription, setTranscription, settings = { speed
     };
 
     const handleClear = () => {
-        clearSpeechQueue();
         setTranscription('');
+        previousTranscriptionRef.current = '';
         document.body.appendChild(createToast("Transcription cleared"));
     };
 
