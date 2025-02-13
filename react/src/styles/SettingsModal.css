@@ -1,0 +1,213 @@
+.settings-overlay {
+    position: fixed;
+    inset: 0;
+    background: transparent;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    z-index: 1000;
+    pointer-events: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.settings-modal {
+    position: relative;
+    pointer-events: auto;
+    background: rgba(255, 255, 255, 0.12);  /* Reduced from 0.2 to 0.12 */
+    backdrop-filter: blur(16px);  /* Increased blur from 12px to 16px */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 2rem;
+    width: 320px;
+    margin: 5rem 2rem 0 0;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.15),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    animation: slideInRight 0.3s ease;
+}
+
+/* Adjust text colors for better visibility with increased transparency */
+.settings-modal h2 {
+    color: rgba(0, 0, 0, 0.95);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+    font-family: 'PT Serif', serif;
+    font-size: 1.8rem;
+    margin-bottom: 2.5rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+.settings-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 2rem;
+    margin: 2rem 0;
+    padding: 1rem;
+    color: rgba(0, 0, 0, 0.9);
+    min-height: 250px;
+}
+
+.slider-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.slider-group label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.slider-group span {
+    color: rgba(0, 0, 0, 0.95);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.range-wrapper {
+    width: 150px;
+    position: relative;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider-group input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 150px;
+    width: 6px;
+    background: rgba(0, 0, 0, 0.12);
+    border-radius: 3px;
+    outline: none;
+    writing-mode: bt-lr;
+    -webkit-appearance: slider-vertical;
+}
+
+.slider-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--accent-color);
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.slider-group input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--accent-color);
+    border: 2px solid rgba(0, 0, 0, 0.8);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.value {
+    min-width: 2.5rem;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.95);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    order: 3;
+}
+
+.slider-group span:first-child {
+    color: rgba(0, 0, 0, 0.95); /* Changed from white to black */
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    order: 1;
+}
+
+.close-button {
+    margin-top: 1.5rem;
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 12px;
+    background: var(--accent-color);
+    color: rgb(0, 0, 0);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.close-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.3);
+}
+
+.close-x-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(0, 0, 0, 0.6);
+    transition: all 0.3s ease;
+}
+
+.close-x-button:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.9);
+    transform: rotate(90deg);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from { 
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from { 
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
