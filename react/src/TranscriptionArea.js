@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { FiShare2, FiTrash2 } from 'react-icons/fi';
+import { FiShare2, FiTrash2, FiSave } from 'react-icons/fi';
 import { speechQuotes } from './data/quotes';
 import './styles/QuotePanels.css';
 import { ttsWebSocket } from './services/websocketService';
+import Microphone from './Microphone';
 
 const TranscriptionArea = ({ transcription, setTranscription, settings = { speed: 100, pitch: 100, volume: 100 } }) => {
     const previousTranscriptionRef = useRef('');
@@ -19,7 +20,6 @@ const TranscriptionArea = ({ transcription, setTranscription, settings = { speed
     }, [totalSets]);
 
     useEffect(() => {
-        // Connect to WebSocket when component mounts
         ttsWebSocket.connect();
         
         // Cleanup WebSocket connection when component unmounts
@@ -78,6 +78,21 @@ const TranscriptionArea = ({ transcription, setTranscription, settings = { speed
         setTranscription('');
         previousTranscriptionRef.current = '';
         document.body.appendChild(createToast("Transcription cleared"));
+    };
+
+    const handleSave = () => {
+        if (!transcription) return;
+        
+        const savedTranscripts = JSON.parse(localStorage.getItem('savedTranscripts') || '[]');
+        const newTranscript = {
+            id: Date.now(),
+            text: transcription,
+            date: new Date().toISOString(),
+        };
+        
+        savedTranscripts.push(newTranscript);
+        localStorage.setItem('savedTranscripts', JSON.stringify(savedTranscripts));
+        document.body.appendChild(createToast("Transcription saved!"));
     };
 
     const createToast = (message) => {
@@ -149,6 +164,15 @@ const TranscriptionArea = ({ transcription, setTranscription, settings = { speed
                 </div>
                 <div className="transcription-actions">
                     <button 
+                        className="action-button save-button"
+                        onClick={handleSave}
+                        disabled={!transcription}
+                        title="Save transcription"
+                    >
+                        <FiSave size={20} />
+                        <span>Save</span>
+                    </button>
+                    <button 
                         className="action-button share-button"
                         onClick={handleShare}
                         disabled={!transcription}
@@ -167,6 +191,7 @@ const TranscriptionArea = ({ transcription, setTranscription, settings = { speed
                         <span>Clear</span>
                     </button>
                 </div>
+                <Microphone setTranscription={setTranscription} />
             </div>
 
             <aside className="quote-panels right">

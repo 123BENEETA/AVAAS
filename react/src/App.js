@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
-import Microphone from './Microphone';
 import TranscriptionArea from './TranscriptionArea';
 
 function App() {
@@ -16,9 +15,6 @@ function App() {
           <p className="subtitle">Whisper your words and I'll be the voice for you</p>
         </div>
         <div className="main-content">
-          <div className="microphone-container">
-            <Microphone setTranscription={setTranscription} />
-          </div>
           <TranscriptionArea 
             transcription={transcription} 
             setTranscription={setTranscription}

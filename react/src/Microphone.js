@@ -64,28 +64,25 @@ const Microphone = ({ setTranscription }) => {
 
     return (
         <div className="microphone-wrapper">
-            <p className="status-text">
-                {isListening ? (
-                    <>
-                        Listening quietly... 
-                        {confidence > 0 && (
-                            <span className="confidence">
-                                (Clarity: {Math.round(confidence)}%)
-                            </span>
-                        )}
-                    </>
-                ) : (
-                    "Tap when you're ready to speak"
-                )}
-            </p>
+            {isListening && (
+                <p className="status-text">
+                    Listening quietly... 
+                    {confidence > 0 && (
+                        <span className="confidence">
+                            (Clarity: {Math.round(confidence)}%)
+                        </span>
+                    )}
+                </p>
+            )}
+
             <button
                 onClick={isListening ? stopListening : startListening}
-                className={`mic-button ${isListening ? 'recording' : ''}`}
+                className={`action-button mic-button ${isListening ? 'recording' : ''}`}
                 aria-label={isListening ? 'Stop recording' : 'Start recording'}
             >
-                {isListening ? <FiMicOff size={28} /> : <FiMic size={28} />}
-                <div className="mic-waves"></div>
+                {isListening ? <FiMicOff size={24} /> : <FiMic size={24} />}
             </button>
+
         </div>
     );
 };

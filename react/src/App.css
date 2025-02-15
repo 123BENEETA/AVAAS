@@ -104,6 +104,50 @@ textarea {
   opacity: 0.9;
 }
 
+.mic-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--primary);
+  background: transparent;
+  color: var(--primary);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+  font-size: 0.9rem;
+  min-width: 120px;
+}
+
+
+
+
+.mic-button:hover:not(:disabled) {
+  background: var(--primary);
+  color: var(--background);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(54, 54, 54, 0.2);
+}
+
+
+.mic-button:hover::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.mic-button.recording {
+  border-color: #dc2626;
+  color: #dc2626;
+}
+
+.mic-button.recording:hover {
+  background: #dc2626;
+  color: var(--background);
+  border-color: #dc2626;
+}
+
+
 .transcription-container {
   flex: 1.5;
   max-width: min(1200px, 60vw);
@@ -117,48 +161,6 @@ textarea {
   backdrop-filter: blur(12px);
   border: 1px solid var(--border-color);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-}
-
-.mic-button {
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 1.5rem;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(54, 54, 54, 0.2);
-  position: relative;
-  overflow: hidden;
-}
-
-.mic-button::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 120%;
-  height: 120%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 60%);
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.5s ease-out;
-}
-
-.mic-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4),
-              0 0 0 12px rgba(99, 102, 241, 0.15);
-}
-
-.mic-button:hover::after {
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.mic-button.recording {
-  background: #dc2626;
-  animation: pulseRecording 2s infinite;
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3),
-              0 0 0 8px rgba(239, 68, 68, 0.1);
 }
 
 .transcription-title {
